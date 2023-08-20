@@ -97,11 +97,6 @@ double calculateCalories(double weight, double age, char gender, int activityLev
 }
 
 
-
-
-
-
-
 // Structure to hold food details
 
 
