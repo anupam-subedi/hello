@@ -5,7 +5,8 @@
 
 void addrec();
 void read();
-void display();
+void giverec();
+void recommend();
 
 struct food{
     char name[50];
@@ -24,9 +25,9 @@ void addrec(){
     struct food fo;
     char pw[50];
     int i,n;
-    fp=fopen("foodref.txt","w");
+    fp=fopen("foodref.txt","ab");
     printf("Enter the password");
-    gets(pw);
+    scanf("%s",&pw);
     if (strcmp(pw,"123@admin")!=0){
         printf("Error!Password mismatch");
         exit(1);
@@ -43,63 +44,70 @@ void addrec(){
     }
     printf("File written!");
     fclose(fp);
+    main();
 }
 
 
 void read(){
 	FILE *fp;
 	struct food fo;
-	fp=fopen("foodref.txt","r");
-	printf("Name\nCalories(/100gm)\n");
+	fp=fopen("foodref.txt","rb");
+	printf("Name\tCalories(/100gm)\n");
 	while(!feof(fp)){
 		fread(&fo,sizeof(struct food),1,fp);
+		if(!feof(fp))
 		printf("%s\t%f\n",fo.name,fo.calo);
 	}
 	fclose(fp);
+	main();
 }
 
 
 
 void giverec(){
     //user gives food data data
-    struct get ufo;
     FILE *up;
     int i,ns;
-    up=fopen("userfood.txt","a");
+	float x=0;
+    up=fopen("userfood.txt","ab+");
     printf("Enter the number of food you want to check");
     scanf("%d",&ns);
-    printf("\nEnter the data");
+    
+    struct get ufo[ns];
+    printf("\nEnter the data\n");
         for(i=0;i<ns;i++)
 		{
-        printf("Enter for food item %d",i+1);
+        printf("Enter for food item %d\n",i+1);
         printf("Enter the name of the food");
-        scanf("%s",&ufo.na);
+        scanf("%s",&ufo[i].na);
         printf("Enter the weight of food(in gram)");
-        scanf("%f",&ufo.gm);
+        scanf("%f",&ufo[i].gm);
 		
-		
-		int n=-1,i,c=0;
 	    FILE *fp;
 	    struct food fo;
-	    fp=fopen("foodref.txt","r");
+	    fp=fopen("foodref.txt","rb");
 	    
 	    while(!feof(fp))
 	    {
-	    	fread(&fo[++n],sizeof(struct food),1,fp);
-	    	c++;
-		}
-		for(i=0;i<c;i++)
-		{
-			if(strcmp(ufo.na,fo[i].name)==0)
+	    	fread(&fo,sizeof(struct food),1,fp);
+	    	
+	    	if(strcmp(ufo[i].na,fo.name)==0)
 			{
-				ufo.cal=ufo.gm*fo[i].calo;
-				fwrite(&ufo,sizeof(ufo),1,up);
-			}			
+				ufo[i].cal=(ufo[i].gm*fo.calo)/100;
+				x=x+ufo[i].cal;
+				fwrite(&ufo[i],sizeof(ufo),1,up);
+				printf("The calorie of %s is %f:",ufo[i].na,ufo[i].cal);
+			}
 		}
+	
 		fclose(fp);	
     }
+    printf("The total calorie is %f:",x);
     fclose(up);
+    main();
 }
+
+
 
 void recommend()
 {
@@ -158,7 +166,7 @@ void recommend()
     double recommendedCalories = bmr * activityFactor;
 
     printf("Your recommended daily calories: %.2lf\n", recommendedCalories);
-
+main();
 }
 
 
@@ -167,30 +175,31 @@ int main(){
 	int n;
 	
 	printf("What do you want to do\n");
-	printf("1.Write food items\n");//user
-	printf("2.Add food items\n");//admin main file
-	printf("3.Check recommended amount of your calories\n");
-	printf("4.Display the name of foods we can calculate calorie for\n");
-	printf("5.View your recommended amount of calorie intake\n");
+	printf("1.Add food items\n");//admin main file
+	printf("2.Write food items\n");//user
+	printf("3.Display the name of foods we can calculate calorie for\n");
+	printf("4.View your recommended amount of calorie intake\n");
+	printf("5.To exit program\n");
 	scanf("%d",&n);
 	switch(n){
 		case 1:
-			giverec();
-		break;
-		
-		case 2:
 			addrec();
 		break;
 		
-		case 3:
-			display();  //display name, mass in gm, calculated calorie 
+		case 2:
+			giverec();
 		break;
-		
-		case 4:
+		case 3:
 			read();
+			break;
+			
+		case 4:
+			recommend();
+			break;
 			
 		case 5:
-			recommend();
+			printf("Successful Exit!");
+			exit(0);
 		
 		default:
 			printf("Invalid choice");
