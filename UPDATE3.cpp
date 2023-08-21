@@ -217,7 +217,7 @@ void displayHealthSaying()
     srand(time(NULL)); // Seed the random number generator
     int randomIndex = rand() % numSayings;
 
-    printf("Health Tip: %s\n", sayings[randomIndex]);
+    printf("Health Tip: %10s\n", sayings[randomIndex]);
 }
 
 
@@ -228,14 +228,15 @@ int main()
 	system("cls");
 	displayHealthSaying();
 	//welcome good message
-	printf("\t\t\t**********************************************************");
+	char ast[500]="************************************************************************************************************************";
+	printf("%-15s",ast);
 	logo("welcome.txt");
 	printf("\t\t\t\tWhat do you want to do\n");
-	printf("\t\t\t\t1.Add food items\n");//admin main file
-	printf("\t\t\t\t2.Write food items\n");//user
-	printf("\t\t\t\t3.Display the name of foods we can calculate calorie for\n");
-	printf("\t\t\t\t4.View your recommended amount of calorie intake\n");
-	printf("\t\t\t\t5.To exit program\n");
+	printf("1.Add food items\n");//admin main file
+	printf("2.Write food items\n");//user
+	printf("3.Display the name of foods we can calculate calorie for\n");
+	printf("4.View your recommended amount of calorie intake\n");
+	printf("5.To exit program\n");
 	scanf("%d",&n);
 	switch(n)
 	{
