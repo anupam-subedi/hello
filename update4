@@ -71,8 +71,8 @@ void addrec()
 
 void read()
 {
-	displayHealthSaying();
 	system("cls");
+	displayHealthSaying();
     FILE *fp = fopen("foodref.txt", "rb");
     if (fp == NULL) 
 	{
