@@ -48,9 +48,9 @@ void addrec()
     scanf("%s",&pw);
     if (strcmp(pw,"123@admin")!=0)
 	{
-        printf("Error!Password mismatch");
+        printf("/nError!Password mismatch");
         getch();
-	main();
+		main();
     }
     printf("Enter the number of food to write:");
     scanf("%d",&n);
@@ -65,25 +65,37 @@ void addrec()
     }
     printf("File written!");
     fclose(fp);
-    main();
+    getch();
 }
 
 
 void read()
 {
-	system("cls");
 	displayHealthSaying();
-	FILE *fp;
-	struct food fo;
-	fp=fopen("foodref.txt","rb");
-	printf("\nName\tCalories(/100gm)\n");
-	while(!feof(fp)){
-		fread(&fo,sizeof(struct food),1,fp);
-		if(!feof(fp))
-		printf("%s\t%f\n",fo.name,fo.calo);
-	}
-	fclose(fp);
-	main();
+	system("cls");
+    FILE *fp = fopen("foodref.txt", "rb");
+    if (fp == NULL) 
+	{
+        printf("Error opening foodref.txt for reading.\n");
+        printf("Press any key to continue...");
+        getchar(); // Wait for user input
+        return;    // Return without performing the operation
+    }
+
+    printf("Food Name\tCalories (/100gm)\n");
+    printf("---------------------------------\n");
+
+    struct food fo;
+
+    while (fread(&fo, sizeof(struct food), 1, fp) == 1) 
+	{
+        printf("%-20s%.2f\n", fo.name, fo.calo);
+    }
+
+    fclose(fp);
+
+    printf("Press any key to continue...");
+    getchar();
 }
 
 
@@ -98,7 +110,8 @@ void giverec()
     float x = 0;
 
     up = fopen("userfood.txt", "ab+");
-    if (up == NULL) {
+    if (up == NULL) 
+	{
         printf("Error opening userfood.txt for appending.\n");
         return; // Return without performing the operation
     }
@@ -109,7 +122,8 @@ void giverec()
     struct get ufo[ns];
     printf("\nEnter the data:\n");
 
-    for (i = 0; i < ns; i++) {
+    for (i = 0; i < ns; i++) 
+	{
         printf("Enter for food item %d:\n", i + 1);
         printf("Enter the name of the food: ");
         scanf("%s", ufo[i].na);
@@ -120,7 +134,8 @@ void giverec()
         struct food fo;
         fp = fopen("foodref.txt", "rb");
         
-        if (fp == NULL) {
+        if (fp == NULL) 
+		{
             printf("Error opening foodref.txt for reading.\n");
             fclose(up); // Close the userfood.txt file before returning
             return;
@@ -128,8 +143,10 @@ void giverec()
 
         int found = 0; // Flag to indicate if food is found
         
-        while (fread(&fo, sizeof(struct food), 1, fp) == 1) {
-            if (strcmp(ufo[i].na, fo.name) == 0) {
+        while (fread(&fo, sizeof(struct food), 1, fp) == 1) 
+		{
+            if (strcmp(ufo[i].na, fo.name) == 0) 
+			{
                 ufo[i].cal = (ufo[i].gm * fo.calo) / 100;
                 x = x + ufo[i].cal;
                 fwrite(&ufo[i], sizeof(ufo[i]), 1, up);
@@ -141,15 +158,16 @@ void giverec()
 
         fclose(fp);
 
-        if (!found) {
+        if (!found) 
+		{
             printf("Food not found in the database.\n");
         }
     }
 
     printf("The total calorie is %.2f\n", x);
     fclose(up);
+    getch();
 }
-
 
 
 void recommend()
@@ -163,13 +181,13 @@ void recommend()
     printf("Enter your weight (kg): ");
     scanf("%lf", &weight);
 
-    printf("Enter your age: ");
+    printf("\nEnter your age: ");
     scanf("%lf", &age);
 
-    printf("Enter your gender (M/F): ");
+    printf("\nEnter your gender (M/F): ");
     scanf(" %c", &gender);
 
-    printf("Enter your activity level (1-5):\n");
+    printf("\nEnter your activity level (1-5):\n");
     printf("1: Sedentary\n2: Lightly active\n3: Moderately active\n");
     printf("4: Very active\n5: Super active\n");
     scanf("%d", &activityLevel);
@@ -179,9 +197,13 @@ void recommend()
     if (gender == 'M' || gender == 'm')
 	{
         bmr = 88.362 + (13.397 * weight) + (4.799 * age) - (5.677 * age);
-    } else if (gender == 'F' || gender == 'f') {
+    } 
+	else if (gender == 'F' || gender == 'f')
+	{
         bmr = 447.593 + (9.247 * weight) + (3.098 * age) - (4.330 * age);
-    } else {
+    } 
+	else 
+	{
         printf("Invalid gender input\n");
         exit(1); // Return an error code
     }
@@ -213,7 +235,7 @@ void recommend()
     double recommendedCalories = bmr * activityFactor;
 
     printf("Your recommended daily calories: %.2lf\n", recommendedCalories);
-main();
+    getch();
 }
 
 
@@ -240,7 +262,8 @@ void displayHealthSaying()
 
 
 int main()
-{
+{	
+	do{
 	int n;
 	system("cls");
 	displayHealthSaying();
@@ -249,7 +272,7 @@ int main()
 	printf("%-15s",ast);
 	logo("welcome.txt");
 	printf("\t\t\t\t\tWhat do you want to do\n");
-	printf("\t\t\t\t\t1.Add food items\n");//admin main file
+	printf("\t\t\t\t\t1.[ADMIN]Add food items\n");//admin main file
 	printf("\t\t\t\t\t2.Write food items\n");//user
 	printf("\t\t\t\t\t3.Display the name of foods we can calculate calorie for\n");
 	printf("\t\t\t\t\t4.View your recommended amount of calorie intake\n");
@@ -279,5 +302,6 @@ int main()
 		default:
 			printf("Invalid choice");
 	}
+}while (1);
 return 0;
 }
