@@ -48,7 +48,7 @@ void addrec()
     scanf("%s",&pw);
     if (strcmp(pw,"123@admin")!=0)
 	{
-        printf("/nError!Password mismatch");
+        printf("\nError!Password mismatch");
         getch();
 		main();
     }
@@ -71,15 +71,14 @@ void addrec()
 
 void read()
 {
-	system("cls");
-	displayHealthSaying();
+    system("cls");
+    displayHealthSaying();
     FILE *fp = fopen("foodref.txt", "rb");
-    if (fp == NULL) 
-	{
+    if (fp == NULL) {
         printf("Error opening foodref.txt for reading.\n");
         printf("Press any key to continue...");
-        getchar(); // Wait for user input
-        return;    // Return without performing the operation
+        getchar(); 
+        return;    
     }
 
     printf("Food Name\tCalories (/100gm)\n");
@@ -87,17 +86,13 @@ void read()
 
     struct food fo;
 
-    while (fread(&fo, sizeof(struct food), 1, fp) == 1) 
-	{
+    while (fread(&fo, sizeof(struct food), 1, fp) == 1) {
         printf("%-20s%.2f\n", fo.name, fo.calo);
     }
 
     fclose(fp);
-
-    printf("Press any key to continue...");
-    getchar();
+	getch();
 }
-
 
 
 void giverec()
@@ -264,9 +259,9 @@ void displayHealthSaying()
 int main()
 {	
 	do{
-	int n;
 	system("cls");
 	displayHealthSaying();
+	int n;
 	//welcome good message
 	char ast[500]="************************************************************************************************************************";
 	printf("%-15s",ast);
