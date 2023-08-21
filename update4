@@ -49,7 +49,8 @@ void addrec()
     if (strcmp(pw,"123@admin")!=0)
 	{
         printf("Error!Password mismatch");
-        exit(1);
+        getch();
+	main();
     }
     printf("Enter the number of food to write:");
     scanf("%d",&n);
