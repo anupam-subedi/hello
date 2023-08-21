@@ -75,7 +75,7 @@ void read()
 	FILE *fp;
 	struct food fo;
 	fp=fopen("foodref.txt","rb");
-	printf("Name\tCalories(/100gm)\n");
+	printf("\nName\tCalories(/100gm)\n");
 	while(!feof(fp)){
 		fread(&fo,sizeof(struct food),1,fp);
 		if(!feof(fp))
@@ -104,9 +104,9 @@ void giverec()
         for(i=0;i<ns;i++)
 		{
         printf("Enter for food item %d\n",i+1);
-        printf("Enter the name of the food");
+        printf("Enter the name of the food\n");
         scanf("%s",&ufo[i].na);
-        printf("Enter the weight of food(in gram)");
+        printf("Enter the weight of food(in gram)\n");
         scanf("%f",&ufo[i].gm);
 		
 	    FILE *fp;
@@ -114,7 +114,7 @@ void giverec()
 	    fp=fopen("foodref.txt","rb");
 	    
 	    while(!feof(fp))
-	    {
+	    {	
 	    	fread(&fo,sizeof(struct food),1,fp);
 	    	
 	    	if(strcmp(ufo[i].na,fo.name)==0)
@@ -122,10 +122,10 @@ void giverec()
 				ufo[i].cal=(ufo[i].gm*fo.calo)/100;
 				x=x+ufo[i].cal;
 				fwrite(&ufo[i],sizeof(ufo),1,up);
-				printf("The calorie of %s is %f:",ufo[i].na,ufo[i].cal);
+				printf("The calorie of %f gm amount of %s is %f:\n",ufo[i].gm,ufo[i].na,ufo[i].cal);
 			}
 		}
-	
+	printf("The total calorie is %f:\n",x);
 		fclose(fp);	
     }
     printf("The total calorie is %f:",x);
@@ -231,12 +231,12 @@ int main()
 	char ast[500]="************************************************************************************************************************";
 	printf("%-15s",ast);
 	logo("welcome.txt");
-	printf("\t\t\t\tWhat do you want to do\n");
-	printf("1.Add food items\n");//admin main file
-	printf("2.Write food items\n");//user
-	printf("3.Display the name of foods we can calculate calorie for\n");
-	printf("4.View your recommended amount of calorie intake\n");
-	printf("5.To exit program\n");
+	printf("\t\t\t\t\tWhat do you want to do\n");
+	printf("\t\t\t\t\t1.Add food items\n");//admin main file
+	printf("\t\t\t\t\t2.Write food items\n");//user
+	printf("\t\t\t\t\t3.Display the name of foods we can calculate calorie for\n");
+	printf("\t\t\t\t\t4.View your recommended amount of calorie intake\n");
+	printf("\t\t\t\t\t5.To exit program\n");
 	scanf("%d",&n);
 	switch(n)
 	{
